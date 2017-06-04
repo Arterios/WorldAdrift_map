@@ -1,19 +1,48 @@
 package map;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import island.Island;
 
-public class WAMap {
+public class WAMap extends JFrame implements ActionListener{
+	private static final long serialVersionUID = 1L;
 	private List<Island> islands = new ArrayList<Island>();
+	private JPanel panel;
 	
 	public WAMap() {
-		// TODO Auto-generated constructor stub
+		this.setTitle("WA map");
+	    this.setSize(500, 500);
+	    this.setLocationRelativeTo(null);
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
+	    JMenuBar menuBar = new JMenuBar();
+	    JMenu menu = new JMenu("Actions");
+	    menuBar.add(menu);
+	    JMenuItem addIsland = new JMenuItem("Add island");
+	    addIsland.setActionCommand("add island");
+	    addIsland.addActionListener(this);
+	    menu.add(addIsland);
+	    this.setJMenuBar(menuBar);
+	    
+	    panel = new JPanel();
+	    panel.setLayout(null);
+	    setTestIsland();
+	    draw();
+	    //panel.setBackground(Color.ORANGE);
+	    this.setContentPane(panel);
+	    
+	    this.setVisible(true);
+	    this.repaint();
 	}
 	
 	private void setTestIsland(){
@@ -47,24 +76,23 @@ public class WAMap {
 	}
 	
 	public void draw(){
-		JFrame window = new JFrame();
-		window.setTitle("WA map");
-	    window.setSize(500, 500);
-	    window.setLocationRelativeTo(null);
-	    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
-	    JPanel panel = new JPanel();
-	    panel.setLayout(null);
-	    setTestIsland();
 	    for(Island i : islands){
 	    	panel.add(i);
 	    }
-	    //panel.setBackground(Color.ORANGE);
-	    window.setContentPane(panel);
-	    //window.pack();
-	    
-	    window.setVisible(true);
-	    window.repaint();
+	    this.repaint();
+	}
+	
+	public void addIslandToMap(Island i){
+		islands.add(i);
+		this.draw();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if("add island".equals(e.getActionCommand())){
+			AddIsland add = new AddIsland(this);
+		}
+		
 	}
 
 }
