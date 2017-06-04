@@ -3,8 +3,13 @@ package island;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import main.Preferences;
 
 public class Island extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -123,7 +128,13 @@ public class Island extends JPanel{
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.setColor(c);
-		g.fillOval(0, 0, size, size);
+		try {
+			File f = new File(Preferences.folder + "/images/" + name + ".png");
+		    Image img = ImageIO.read(f);
+		    g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		} catch (IOException e) {
+			g.setColor(c);
+			g.fillOval(0, 0, size, size);
+		} 
 	}  
 }

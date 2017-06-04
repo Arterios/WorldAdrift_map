@@ -25,8 +25,12 @@ public class MainWindow extends JFrame implements ActionListener{
 	    map = new WAMap();
 	    
 	    JMenuBar menuBar = new JMenuBar();
+	    
 	    JMenu action = new JMenu("Actions");
 	    menuBar.add(action);
+	    
+	    JMenu preferences = new JMenu("Preferences");
+	    menuBar.add(preferences);
 	    
 	    JMenuItem addIsland = new JMenuItem("Add island");
 	    addIsland.setActionCommand("add island");
@@ -38,6 +42,16 @@ public class MainWindow extends JFrame implements ActionListener{
 	    addIslandRef.addActionListener(this);
 	    action.add(addIslandRef);
 	    
+	    JMenuItem refresh = new JMenuItem("Refresh");
+	    refresh.setActionCommand("refresh");
+	    refresh.addActionListener(this);
+	    action.add(refresh);
+	    
+	    JMenuItem setFolder = new JMenuItem("Set data folder");
+	    setFolder.setActionCommand("set folder");
+	    setFolder.addActionListener(this);
+	    preferences.add(setFolder);
+	    
 	    this.setJMenuBar(menuBar);
 	    this.setContentPane(map);
 	    this.setVisible(true);
@@ -46,10 +60,20 @@ public class MainWindow extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if("add island".equals(e.getActionCommand())){
-			new AddIsland(map);
-		} else if("add island ref".equals(e.getActionCommand())){
-			new AddIslandRef(map);
+		switch(e.getActionCommand()){
+			case "add island" :
+				new AddIsland(map);
+				break;
+			case "add island ref" :
+				new AddIslandRef(map);
+				break;
+			case "set folder" :
+				Preferences.setFolderDialog();
+				break;
+			case "refresh" :
+				map.repaint();
+				break;
+			default :
 		}
 		
 	}
