@@ -3,51 +3,41 @@ package map;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import island.Island;
 
-public class WAMap extends JFrame implements ActionListener{
+public class WAMap extends JPanel implements ActionListener,MouseMotionListener,MouseListener{
 	private static final long serialVersionUID = 1L;
 	private List<Island> islands = new ArrayList<Island>();
-	private JPanel panel;
+	private JLabel mouseCoord;
+	private JLabel distance;
+	private int x1, y1;
 	
 	public WAMap() {
-		this.setTitle("WA map");
 	    this.setSize(500, 500);
-	    this.setLocationRelativeTo(null);
-	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setLayout(null);
 	    
-	    JMenuBar menuBar = new JMenuBar();
-	    JMenu action = new JMenu("Actions");
-	    menuBar.add(action);
+	    addMouseMotionListener(this);
+	    mouseCoord = new JLabel();
+	    mouseCoord.setBounds(0, 0 , 200, 20);
+	    this.add(mouseCoord);
 	    
-	    JMenuItem addIsland = new JMenuItem("Add island");
-	    addIsland.setActionCommand("add island");
-	    addIsland.addActionListener(this);
-	    action.add(addIsland);
+	    addMouseListener(this);
+	    distance = new JLabel();
+	    distance.setBounds(0, 20 , 200, 20);
+	    this.add(distance);
 	    
-	    JMenuItem addIslandRef = new JMenuItem("Add island by reference");
-	    addIslandRef.setActionCommand("add island ref");
-	    addIslandRef.addActionListener(this);
-	    action.add(addIslandRef);
-	    
-	    this.setJMenuBar(menuBar);
-	    
-	    panel = new JPanel();
-	    panel.setLayout(null);
 	    setTestIsland();
+	    
 	    draw();
-	    //panel.setBackground(Color.ORANGE);
-	    this.setContentPane(panel);
 	    
 	    this.setVisible(true);
 	    this.repaint();
@@ -85,7 +75,7 @@ public class WAMap extends JFrame implements ActionListener{
 	
 	public void draw(){
 	    for(Island i : islands){
-	    	panel.add(i);
+	    	this.add(i);
 	    }
 	    this.repaint();
 	}
@@ -122,6 +112,50 @@ public class WAMap extends JFrame implements ActionListener{
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		mouseCoord.setText("X : " + e.getX() + " | Y : " + e.getY() );
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		int x2 = e.getX() - x1;
+		int y2 = e.getY() - y1;
+		double dist = Math.sqrt( x2*x2 + y2*y2 );
+		distance.setText("Distance =" + Math.ceil(dist) );
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		x1 = e.getX();
+		y1 = e.getY();
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
