@@ -5,7 +5,7 @@ import map.WAMap;
 public class Main {
 
 	public static void main(String[] args) {
-		WAMap m = new WAMap();
+		new WAMap();
 
 	}
 

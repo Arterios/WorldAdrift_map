@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -26,12 +27,19 @@ public class WAMap extends JFrame implements ActionListener{
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    JMenuBar menuBar = new JMenuBar();
-	    JMenu menu = new JMenu("Actions");
-	    menuBar.add(menu);
+	    JMenu action = new JMenu("Actions");
+	    menuBar.add(action);
+	    
 	    JMenuItem addIsland = new JMenuItem("Add island");
 	    addIsland.setActionCommand("add island");
 	    addIsland.addActionListener(this);
-	    menu.add(addIsland);
+	    action.add(addIsland);
+	    
+	    JMenuItem addIslandRef = new JMenuItem("Add island by reference");
+	    addIslandRef.setActionCommand("add island ref");
+	    addIslandRef.addActionListener(this);
+	    action.add(addIslandRef);
+	    
 	    this.setJMenuBar(menuBar);
 	    
 	    panel = new JPanel();
@@ -90,9 +98,30 @@ public class WAMap extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if("add island".equals(e.getActionCommand())){
-			AddIsland add = new AddIsland(this);
+			new AddIsland(this);
+		} else if("add island ref".equals(e.getActionCommand())){
+			new AddIslandRef(this);
 		}
 		
+	}
+	
+	/**
+	 * Search an island by a name
+	 * @param name
+	 * @return the first island with the name, null if not found
+	 */
+	public Island getIslandByName(String name){
+		boolean found = false;
+		Island i = null;
+		for(ListIterator<Island> it = islands.listIterator(0); it.hasNext() && !found; ){
+			i = it.next();
+			found = (name.toLowerCase()).equals( i.getName().toLowerCase() );
+		}
+		if(found){
+			return i;
+		} else {
+			return null;
+		}
 	}
 
 }
