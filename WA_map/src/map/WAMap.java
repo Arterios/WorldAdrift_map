@@ -35,7 +35,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	    distance.setBounds(0, 20 , 200, 20);
 	    this.add(distance);
 	    
-	    setTestIsland();
+	    //setTestIsland();
 	    
 	    draw();
 	    

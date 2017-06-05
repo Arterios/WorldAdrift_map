@@ -32,6 +32,7 @@ public class Island extends JPanel{
 		coord[1] = y;
 		this.refIsland = null;
 		setCoordInPanel();
+		postConstructor();
 		c = Color.BLUE;
 	}
 	
@@ -42,7 +43,12 @@ public class Island extends JPanel{
 		this.distance = distance;
 		calcAbsoluteCoord();
 		setCoordInPanel();
+		postConstructor();
 		c = Color.RED;
+	}
+	
+	private void postConstructor(){
+		this.setToolTipText(name);
 	}
 	
 	private void setCoordInPanel(){
