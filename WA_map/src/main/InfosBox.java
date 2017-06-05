@@ -13,6 +13,7 @@ public class InfosBox extends JPanel {
 
 	public InfosBox() {
 		me = this;
+		this.setOpaque(false);
 		this.setLayout(null);
 		this.setBounds(0, 0, 200, 60);
 		

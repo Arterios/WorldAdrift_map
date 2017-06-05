@@ -21,10 +21,15 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	private int x1, y1;
 	
 	public WAMap() {
-	    this.setSize(500, 500);
 	    this.setLayout(null);
+	    this.setAutoscrolls(true);
+	    this.setPreferredSize(new Dimension( 500,500));
 	    
 	    //this.setBackground(Color.ORANGE);
+	    
+	    for(int i = 0; i<1000; i++ ){
+	    	addIslandToMap(new Island("Island "+i, (double)i*10, (double)i*10));
+	    }
 	    
 	    addMouseMotionListener(this);
 	    addMouseListener(this);
@@ -92,6 +97,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	public void mouseMoved(MouseEvent e) {
 		InfosBox.setMouseCoordLabel("X : " + e.getX() + " | Y : " + e.getY() );
 		updateInfosBox();
+		//System.out.println(getWidth() + " | " + getHeight());
 	}
 
 	@Override
@@ -105,7 +111,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		this.setSize(600, 300);
+		
 	}
 
 	@Override
@@ -138,11 +144,13 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	}
 	
 	public void setWidht(int x){
-		this.setPreferredSize(new Dimension( x, getHeight()));
+		Dimension dim = this.getPreferredSize();
+		this.setPreferredSize(new Dimension( x, dim.height));
 	}
 	
 	public void setHeight(int x){
-		this.setPreferredSize(new Dimension( getWidth(), x));
+		Dimension dim = this.getPreferredSize();
+		this.setPreferredSize(new Dimension( dim.width, x));
 	}
 
 

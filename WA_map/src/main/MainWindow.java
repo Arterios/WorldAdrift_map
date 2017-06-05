@@ -68,8 +68,6 @@ public class MainWindow extends JFrame implements ActionListener{
 	    
 	    map = new WAMap();	    
 	    JScrollPane scrollPane = new JScrollPane(map);
-	    map.setAutoscrolls(true);
-	    map.setPreferredSize(new Dimension( 500,500));
 	    scrollPane.setPreferredSize(new Dimension( 800,300));
 	    
 	    JPanel infos = new InfosBox();
