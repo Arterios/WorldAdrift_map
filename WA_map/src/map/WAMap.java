@@ -1,5 +1,6 @@
 package map;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -19,20 +20,26 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	private JLabel mouseCoord;
 	private JLabel distance;
 	private int x1, y1;
+	private JLabel infosBox;
 	
 	public WAMap() {
 	    this.setSize(500, 500);
 	    this.setLayout(null);
 	    
 	    addMouseMotionListener(this);
+	    addMouseListener(this);
+	    
 	    mouseCoord = new JLabel();
 	    mouseCoord.setBounds(0, 0 , 200, 20);
 	    this.add(mouseCoord);
 	    
-	    addMouseListener(this);
 	    distance = new JLabel();
 	    distance.setBounds(0, 20 , 200, 20);
 	    this.add(distance);
+	    
+	    infosBox = new JLabel();
+	    infosBox.setBounds(0, 40 , 200, 20);
+	    this.add(infosBox);
 	    
 	    this.setVisible(true);
 	    this.repaint();
@@ -73,9 +80,18 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 		}
 	}
 	
+	private void updateInfosBox(){
+		Component c = findComponentAt(getMousePosition());
+		if(c == this)
+			infosBox.setText("The void");
+		else
+			infosBox.setText(c.getName());
+	}
+	
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		mouseCoord.setText("X : " + e.getX() + " | Y : " + e.getY() );
+		updateInfosBox();
 	}
 
 	@Override
@@ -89,7 +105,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		
 	}
 
 	@Override
@@ -120,7 +136,6 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	public List<Island> getIslandsList() {
 		return islands;
 	}
-	
-	
+
 
 }

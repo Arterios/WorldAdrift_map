@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import main.Preferences;
 
 public class Island extends JPanel{
@@ -48,6 +47,7 @@ public class Island extends JPanel{
 	}
 	
 	private void postConstructor(){
+		//addMouseListener(this);
 		//this.setToolTipText(name);
 	}
 	
@@ -181,5 +181,5 @@ public class Island extends JPanel{
 			g.setColor(c);
 			g.fillOval(0, 0, size, size);
 		}
-	}  
+	}
 }
