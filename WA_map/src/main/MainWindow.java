@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +9,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import loadSave.LoadJson;
 import loadSave.SaveJson;
@@ -24,8 +27,6 @@ public class MainWindow extends JFrame implements ActionListener{
 	    this.setSize(500, 500);
 	    this.setLocationRelativeTo(null);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
-	    map = new WAMap();
 	    
 	    JMenuBar menuBar = new JMenuBar();
 	    
@@ -65,8 +66,18 @@ public class MainWindow extends JFrame implements ActionListener{
 	    setFolder.addActionListener(this);
 	    preferences.add(setFolder);
 	    
+	    map = new WAMap();	    
+	    JScrollPane scrollPane = new JScrollPane(map);
+	    map.setAutoscrolls(true);
+	    map.setPreferredSize(new Dimension( 500,500));
+	    scrollPane.setPreferredSize(new Dimension( 800,300));
+	    
+	    JPanel infos = new InfosBox();
+	    infos.setVisible(true);
+	    this.add(infos);
+	    this.add(scrollPane);
+	    
 	    this.setJMenuBar(menuBar);
-	    this.setContentPane(map);
 	    this.setVisible(true);
 	    this.repaint();
 	}

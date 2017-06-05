@@ -3,7 +3,7 @@ package main;
 import javax.swing.JOptionPane;
 
 public class Preferences {
-	public static String folder = "C:/Users/Hugo/Desktop/";
+	public static String folder = "./";
 	public Preferences() {
 		// TODO Auto-generated constructor stub
 	}

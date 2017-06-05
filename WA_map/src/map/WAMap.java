@@ -1,6 +1,7 @@
 package map;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -9,43 +10,37 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import island.Island;
+import main.InfosBox;
 
 public class WAMap extends JPanel implements ActionListener,MouseMotionListener,MouseListener{
 	private static final long serialVersionUID = 1L;
 	private List<Island> islands = new ArrayList<Island>();
-	private JLabel mouseCoord;
-	private JLabel distance;
 	private int x1, y1;
-	private JLabel infosBox;
 	
 	public WAMap() {
 	    this.setSize(500, 500);
 	    this.setLayout(null);
 	    
+	    //this.setBackground(Color.ORANGE);
+	    
 	    addMouseMotionListener(this);
 	    addMouseListener(this);
-	    
-	    mouseCoord = new JLabel();
-	    mouseCoord.setBounds(0, 0 , 200, 20);
-	    this.add(mouseCoord);
-	    
-	    distance = new JLabel();
-	    distance.setBounds(0, 20 , 200, 20);
-	    this.add(distance);
-	    
-	    infosBox = new JLabel();
-	    infosBox.setBounds(0, 40 , 200, 20);
-	    this.add(infosBox);
 	    
 	    this.setVisible(true);
 	    this.repaint();
 	}
 	
 	public void addIslandToMap(Island i){
+		double[] coord = i.getCoord();
+		if(coord[0] > this.getWidth()){
+			this.setWidht((int)coord[0] + i.getIslandSize());
+		}
+		if(coord[1] > this.getHeight()){
+			this.setHeight((int)coord[1] + i.getIslandSize());
+		}
 		islands.add(i);
 		this.add(i);
 		this.repaint();
@@ -81,16 +76,21 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	}
 	
 	private void updateInfosBox(){
-		Component c = findComponentAt(getMousePosition());
-		if(c == this)
-			infosBox.setText("The void");
+		Component c = null;
+		try{
+			c = findComponentAt(getMousePosition());
+		} catch(NullPointerException e) {
+			//do nothing
+		}
+		if(c == this || c == null)
+			InfosBox.setNameLabel("The void");
 		else
-			infosBox.setText(c.getName());
+			InfosBox.setNameLabel(c.getName());
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mouseCoord.setText("X : " + e.getX() + " | Y : " + e.getY() );
+		InfosBox.setMouseCoordLabel("X : " + e.getX() + " | Y : " + e.getY() );
 		updateInfosBox();
 	}
 
@@ -99,13 +99,13 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 		int x2 = e.getX() - x1;
 		int y2 = e.getY() - y1;
 		double dist = Math.sqrt( x2*x2 + y2*y2 );
-		distance.setText("Distance =" + Math.ceil(dist) );
+		InfosBox.setDistanceLabel("Distance =" + Math.ceil(dist));
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		this.setSize(600, 300);
 	}
 
 	@Override
@@ -135,6 +135,14 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 
 	public List<Island> getIslandsList() {
 		return islands;
+	}
+	
+	public void setWidht(int x){
+		this.setPreferredSize(new Dimension( x, getHeight()));
+	}
+	
+	public void setHeight(int x){
+		this.setPreferredSize(new Dimension( getWidth(), x));
 	}
 
 
