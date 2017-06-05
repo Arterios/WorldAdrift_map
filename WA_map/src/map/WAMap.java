@@ -25,12 +25,6 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	    this.setAutoscrolls(true);
 	    this.setPreferredSize(new Dimension( 500,500));
 	    
-	    //this.setBackground(Color.ORANGE);
-	    
-	    for(int i = 0; i<1000; i++ ){
-	    	addIslandToMap(new Island("Island "+i, (double)i*10, (double)i*10));
-	    }
-	    
 	    addMouseMotionListener(this);
 	    addMouseListener(this);
 	    
