@@ -48,7 +48,7 @@ public class Island extends JPanel{
 	}
 	
 	private void postConstructor(){
-		this.setToolTipText(name);
+		//this.setToolTipText(name);
 	}
 	
 	private void setCoordInPanel(){
@@ -124,12 +124,51 @@ public class Island extends JPanel{
     	this.c = c;
     }
     
+    public void setColor(String c){
+    	switch(c.toLowerCase()){
+    		case "green" :
+    			setColor(Color.GREEN);
+    			break;
+    		case "red" :
+    			setColor(Color.RED);
+    			break;
+    		case "blue" :
+    			setColor(Color.BLUE);
+    			break;
+    		case "yellow" :
+    			setColor(Color.YELLOW);
+    			break;
+    		default :
+    			setColor(Color.PINK);
+    	}
+    }
+    
+    public String getIslandColor(){
+    	if(c == Color.GREEN){
+    		return "green";
+    	}
+    	if(c == Color.RED){
+    		return "red";
+    	}
+    	if(c == Color.BLUE){
+    		return "blue";
+    	}
+    	if(c == Color.YELLOW){
+    		return "yellow";
+    	}
+    	return "pink";
+    }
+    
     public void setIslandSize(int t){
     	if(t > 7)
     		size = t;
     	else
     		size = 7;
     	setCoordInPanel();
+    }
+    
+    public int getIslandSize(){
+    	return size;
     }
 	
 	public void paintComponent(Graphics g){
@@ -141,6 +180,6 @@ public class Island extends JPanel{
 		} catch (IOException e) {
 			g.setColor(c);
 			g.fillOval(0, 0, size, size);
-		} 
+		}
 	}  
 }

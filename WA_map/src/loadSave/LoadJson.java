@@ -14,9 +14,9 @@ import map.WAMap;
 public class LoadJson {
 	private JSONObject jsonObj;
 	
-	public LoadJson(String data) {
+	public LoadJson(String file) {
 		try {
-			FileInputStream input = new FileInputStream(Preferences.folder + data);
+			FileInputStream input = new FileInputStream(Preferences.folder + file);
 			JSONTokener token = new JSONTokener(input);
 			jsonObj = new JSONObject(token);
 		} catch (FileNotFoundException e) {
@@ -44,6 +44,7 @@ public class LoadJson {
 			}
 			if(isl != null){
 				isl.setIslandSize(obj.getInt("size"));
+				isl.setColor(obj.getString("color"));
 				map.addIslandToMap(isl);
 			}
 		}

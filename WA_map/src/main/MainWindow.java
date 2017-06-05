@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import loadSave.LoadJson;
+import loadSave.SaveJson;
 import map.AddIsland;
 import map.AddIslandRef;
 import map.WAMap;
@@ -54,6 +55,11 @@ public class MainWindow extends JFrame implements ActionListener{
 	    load.addActionListener(this);
 	    action.add(load);
 	    
+	    JMenuItem save = new JMenuItem("Save");
+	    save.setActionCommand("save");
+	    save.addActionListener(this);
+	    action.add(save);
+	    
 	    JMenuItem setFolder = new JMenuItem("Set data folder");
 	    setFolder.setActionCommand("set folder");
 	    setFolder.addActionListener(this);
@@ -85,6 +91,13 @@ public class MainWindow extends JFrame implements ActionListener{
 		                "Load", JOptionPane.PLAIN_MESSAGE, null, null, "islands.json");
 				LoadJson l = new LoadJson(file);
 				l.load(map);
+				break;
+			case "save":
+				String file2 = (String)JOptionPane.showInputDialog(null, "Enter file name :",
+		                "Save", JOptionPane.PLAIN_MESSAGE, null, null, "islands.json");
+				SaveJson s = new SaveJson(file2);
+				s.save(map.getIslandsList());
+				s.close();
 				break;
 			default :
 		}

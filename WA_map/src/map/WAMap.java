@@ -1,6 +1,5 @@
 package map;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -35,54 +34,14 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	    distance.setBounds(0, 20 , 200, 20);
 	    this.add(distance);
 	    
-	    //setTestIsland();
-	    
-	    draw();
-	    
 	    this.setVisible(true);
-	    this.repaint();
-	}
-	
-	private void setTestIsland(){
-		Island ref = new Island("ref", 250.0,  250.0);
-		ref.setIslandSize(30);
-		
-		Island t1 = new Island("t1", ref, 3.14, 50);
-		t1.setColor(Color.GREEN);
-		t1.setIslandSize(15);
-		Island t11 = new Island("t11", t1, 2, 100);
-		t11.setColor(Color.GREEN);
-		Island t12 = new Island("t12", t1, 4, 50);
-		t12.setColor(Color.GREEN);
-		
-		Island t2 = new Island("t2", ref, 0, 50);
-		t2.setColor(Color.YELLOW);
-		t2.setIslandSize(15);
-		Island t21 = new Island("t21", t2, 1, 50);
-		t21.setColor(Color.RED);
-		Island t22 = new Island("t22", t2, 5, 100);
-		t22.setColor(Color.RED);
-		
-		islands.add(ref);
-		islands.add(t1);
-		islands.add(t2);
-		islands.add(t11);
-		islands.add(t12);
-		islands.add(t21);
-		islands.add(t22);
-		
-	}
-	
-	public void draw(){
-	    for(Island i : islands){
-	    	this.add(i);
-	    }
 	    this.repaint();
 	}
 	
 	public void addIslandToMap(Island i){
 		islands.add(i);
-		this.draw();
+		this.add(i);
+		this.repaint();
 	}
 
 	@Override
@@ -157,5 +116,11 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 		// TODO Auto-generated method stub
 		
 	}
+
+	public List<Island> getIslandsList() {
+		return islands;
+	}
+	
+	
 
 }
