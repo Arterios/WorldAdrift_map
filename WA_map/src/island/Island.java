@@ -15,7 +15,7 @@ public class Island extends JPanel{
 	
 	private static final int SCALE = 1; //number of pixels for 1 meter
 	
-	private int size = 7;
+	private int size;
 	private Island refIsland;
 	private double angle; //in radiant
 	private double distance;
@@ -30,29 +30,23 @@ public class Island extends JPanel{
 		coord[0] = x;
 		coord[1] = y;
 		this.refIsland = null;
-		setCoordInPanel();
-		postConstructor();
+		setIslandSize(7);
 		c = Color.BLUE;
 	}
-	
+
 	public Island(String name, Island refIsland, double angle, double distance) {
 		this.name = name;
 		this.refIsland = refIsland;
 		this.angle = angle;
 		this.distance = distance;
 		calcAbsoluteCoord();
-		setCoordInPanel();
-		postConstructor();
+		setIslandSize(7);
 		c = Color.RED;
 	}
 	
-	private void postConstructor(){
-		//addMouseListener(this);
-		//this.setToolTipText(name);
-	}
-	
 	private void setCoordInPanel(){
-		//Insets insets = pane.getInsets();
+		if(this.refIsland != null)
+			calcAbsoluteCoord();
 		Dimension psize = this.getPreferredSize();
 		this.setBounds((SCALE*(int)coord[0] - size/2) ,
 				(SCALE*(int)coord[1] - size/2) , psize.width, psize.height);
@@ -123,6 +117,14 @@ public class Island extends JPanel{
     public void setColor(Color c){
     	this.c = c;
     }
+	
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
     
     public void setColor(String c){
     	switch(c.toLowerCase()){
@@ -172,6 +174,7 @@ public class Island extends JPanel{
     }
 	
 	public void paintComponent(Graphics g){
+		setCoordInPanel();
 		super.paintComponent(g);
 		try {
 			File f = new File(Preferences.folder + "/images/" + name + ".png");

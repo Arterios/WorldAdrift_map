@@ -9,25 +9,31 @@ public class InfosBox extends JPanel {
 	private static JLabel mouseCoord;
 	private static JLabel distance;
 	private static JLabel name;
+	private static JLabel angle;
 	private static InfosBox me;
 
 	public InfosBox() {
 		me = this;
 		this.setOpaque(false);
 		this.setLayout(null);
-		this.setBounds(0, 0, 200, 60);
+		this.setBounds(0, 0, 200, 80);
 		
 		mouseCoord = new JLabel();
 	    mouseCoord.setBounds(0, 0 , 200, 20);
 	    this.add(mouseCoord);
 	    
+	    name = new JLabel();
+	    name.setBounds(0, 20 , 200, 20);
+	    this.add(name);
+	    
 	    distance = new JLabel();
-	    distance.setBounds(0, 20 , 200, 20);
+	    distance.setBounds(0, 40 , 200, 20);
 	    this.add(distance);
 	    
-	    name = new JLabel();
-	    name.setBounds(0, 40 , 200, 20);
-	    this.add(name);
+	    angle = new JLabel();
+	    angle.setBounds(0, 60 , 200, 20);
+	    this.add(angle);
+	    
 	}
 	
 	public static void setMouseCoordLabel(String s){
@@ -42,6 +48,11 @@ public class InfosBox extends JPanel {
 	
 	public static void setNameLabel(String s){
 		name.setText(s);
+		me.repaint();
+	}
+	
+	public static void setAngleLabel(String s){
+		angle.setText(s);
 		me.repaint();
 	}
 

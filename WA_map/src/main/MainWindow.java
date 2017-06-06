@@ -1,10 +1,12 @@
 package main;
 
+import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -71,11 +73,14 @@ public class MainWindow extends JFrame implements ActionListener{
 	    scrollPane.setPreferredSize(new Dimension( 800,300));
 	    
 	    JPanel infos = new InfosBox();
+	    infos.setLayout(null);
 	    infos.setVisible(true);
+	    
 	    this.add(infos);
 	    this.add(scrollPane);
-	    
 	    this.setJMenuBar(menuBar);
+	    infos.setVisible(true);
+	    
 	    this.setVisible(true);
 	    this.repaint();
 	}

@@ -14,11 +14,15 @@ import javax.swing.JPanel;
 
 import island.Island;
 import main.InfosBox;
+import main.Utils;
 
 public class WAMap extends JPanel implements ActionListener,MouseMotionListener,MouseListener{
 	private static final long serialVersionUID = 1L;
 	private List<Island> islands = new ArrayList<Island>();
+	
+	/* temporary field for event */
 	private int x1, y1;
+	private Island quickAddRef;
 	
 	public WAMap() {
 	    this.setLayout(null);
@@ -34,10 +38,10 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	
 	public void addIslandToMap(Island i){
 		double[] coord = i.getCoord();
-		if(coord[0] > this.getWidth()){
+		if((coord[0] + i.getIslandSize()) > this.getWidth()){
 			this.setWidht((int)coord[0] + i.getIslandSize());
 		}
-		if(coord[1] > this.getHeight()){
+		if((coord[1] + i.getIslandSize()) > this.getHeight()){
 			this.setHeight((int)coord[1] + i.getIslandSize());
 		}
 		islands.add(i);
@@ -96,16 +100,34 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		int x2 = e.getX() - x1;
-		int y2 = e.getY() - y1;
-		double dist = Math.sqrt( x2*x2 + y2*y2 );
-		InfosBox.setDistanceLabel("Distance =" + Math.ceil(dist));
+		int x = e.getX() - x1;
+		int y = e.getY() - y1;
+		double dist = Math.sqrt( x*x + y*y );
+		InfosBox.setDistanceLabel("Distance = " + Math.ceil(dist));
+		double acosX = Math.acos(x/dist);
+		double asinY = Math.asin(y/dist);
+		double angle;
+		if(asinY>=0){
+			angle = acosX;
+		} else {
+			angle = 2*Math.PI - acosX;
+		}
+		angle = Double.parseDouble(Utils.DF.format(angle));
+		InfosBox.setAngleLabel("Angle = " + angle);
+		if(e.isShiftDown()){
+			if(quickAddRef != null){
+				quickAddRef.setAngle(angle);
+				quickAddRef.setDistance(Math.ceil(dist));
+				//System.out.println(quickAddRef);
+				this.repaint(e.getX()-50,e.getY()-50,100,100);
+			}
+		}
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+
 	}
 
 	@Override
@@ -124,12 +146,29 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	public void mousePressed(MouseEvent e) {
 		x1 = e.getX();
 		y1 = e.getY();
+		if(e.isShiftDown()){
+			Component c = null;
+			Island originIsland = null;
+			try{
+				c = findComponentAt(getMousePosition());
+				originIsland = (Island)c;
+			} catch(Exception e1) {
+				originIsland = null;
+			} 
+			System.out.println(originIsland);
+			if(originIsland != null){
+				quickAddRef = new Island("Island"+ islands.size(), originIsland, 0,0 );
+				addIslandToMap(quickAddRef);
+			}
+		}
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		InfosBox.setAngleLabel("");
+		InfosBox.setDistanceLabel("");
+		quickAddRef = null;
 		
 	}
 
