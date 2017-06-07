@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -39,6 +40,7 @@ public class AddIslandRef extends JFrame implements ActionListener {
 	private JTextField nameField;
 	private JTextField nameRefField;
 	private JComboBox<String> colorList;
+	private JCheckBox degree;
 
 	public AddIslandRef(WAMap map) {
 		this.map = map;
@@ -60,6 +62,9 @@ public class AddIslandRef extends JFrame implements ActionListener {
 	    angleField.setValue(new Double(0.0));
 	    angleField.setColumns(10);
 	    angleLabel.setLabelFor(angleField);
+	    degree = new JCheckBox("Degree");
+	    degree.setSelected(true);
+	    
 	    
 	    distanceField = new JFormattedTextField(decFormat);
 	    distanceField.setValue(new Double(0.0));
@@ -83,6 +88,7 @@ public class AddIslandRef extends JFrame implements ActionListener {
 	    JPanel anglePane = new JPanel(new GridLayout(1,0));
 	    anglePane.add(angleLabel);
 	    anglePane.add(angleField);
+	    anglePane.add(degree);
 	    
 	    JPanel distancePane = new JPanel(new GridLayout(1,0));
 	    distancePane.add(distanceLabel);
@@ -117,7 +123,13 @@ public class AddIslandRef extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Island i;
 		if("add island".equals(e.getActionCommand())){
-			double angle = ((Number)angleField.getValue()).doubleValue();
+			double angle = 0;
+			if(degree.isSelected()){
+				angle = Math.toRadians(((Number)angleField.getValue()).doubleValue());
+			} else {
+				angle = ((Number)angleField.getValue()).doubleValue();
+			}
+			System.out.println(angle);
 			double distance = ((Number)distanceField.getValue()).doubleValue();
 			int size = ((Number)sizeField.getValue()).intValue();
 			String name = nameField.getText();
