@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -112,25 +113,29 @@ public class AddIsland extends JFrame implements ActionListener{
 			double y = ((Number)yField.getValue()).doubleValue();
 			int size = ((Number)sizeField.getValue()).intValue();
 			String name = nameField.getText();
-			i = new Island(name, x, y);
-			i.setIslandSize(size);
-			switch((String)colorList.getSelectedItem()){
-				case "Green" : 
-					i.setColor(Color.GREEN);
-					break;
-				case "Red" : 
-					i.setColor(Color.RED);
-					break;
-				case "Blue" : 
-					i.setColor(Color.BLUE);
-					break;
-				case "Yellow" : 
-					i.setColor(Color.YELLOW);
-					break;
-				default : 
-					i.setColor(Color.PINK);
+			if(map.getIslandByName(name) != null){
+				JOptionPane.showMessageDialog(null, "Island \""+name+"\" already exist.");
+			} else {
+				i = new Island(name, x, y);
+				i.setIslandSize(size);
+				switch((String)colorList.getSelectedItem()){
+					case "Green" : 
+						i.setColor(Color.GREEN);
+						break;
+					case "Red" : 
+						i.setColor(Color.RED);
+						break;
+					case "Blue" : 
+						i.setColor(Color.BLUE);
+						break;
+					case "Yellow" : 
+						i.setColor(Color.YELLOW);
+						break;
+					default : 
+						i.setColor(Color.PINK);
+				}
+				map.addIslandToMap(i);
 			}
-			map.addIslandToMap(i);
 		}
 		
 	}

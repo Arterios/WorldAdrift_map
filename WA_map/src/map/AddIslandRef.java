@@ -129,7 +129,6 @@ public class AddIslandRef extends JFrame implements ActionListener {
 			} else {
 				angle = ((Number)angleField.getValue()).doubleValue();
 			}
-			System.out.println(angle);
 			double distance = ((Number)distanceField.getValue()).doubleValue();
 			int size = ((Number)sizeField.getValue()).intValue();
 			String name = nameField.getText();

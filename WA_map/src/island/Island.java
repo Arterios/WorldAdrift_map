@@ -30,6 +30,8 @@ public class Island extends JPanel{
 		coord[0] = x;
 		coord[1] = y;
 		this.refIsland = null;
+		angle = 0;
+		distance = 0;
 		setIslandSize(7);
 		c = Color.BLUE;
 	}
@@ -81,9 +83,17 @@ public class Island extends JPanel{
 		return coord;
 	}
 	
+	public void setCoord(double[] c){
+		coord = c;
+	}
+	
 	
 	public Island getRefIsland() {
 		return refIsland;
+	}
+	
+	public void setRefIsland(Island i){
+		refIsland = i;
 	}
 
 
@@ -96,11 +106,15 @@ public class Island extends JPanel{
 		return distance;
 	}
 
-
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
+	public void setName(String name){
+		this.name = name;
+	}
 
 	public String getDescription() {
 		return description;
