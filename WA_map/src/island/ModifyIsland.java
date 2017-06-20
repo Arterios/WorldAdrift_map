@@ -1,6 +1,7 @@
 package island;
 
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.RoundingMode;
@@ -177,15 +178,15 @@ public class ModifyIsland extends JFrame implements ActionListener {
 	    
 	    NumberFormat sizeFormat = NumberFormat.getNumberInstance();
 	    
-	    double[] coord = island.getCoord();
+	    Point coord = island.getCoord();
 	    
 	    xField = new JFormattedTextField(coordFormat);
-	    xField.setValue(coord[0]);
+	    xField.setValue(coord.getX());
 	    xField.setColumns(10);
 	    xLabel.setLabelFor(xField);
 	    
 	    yField = new JFormattedTextField(coordFormat);
-	    yField.setValue(coord[1]);
+	    yField.setValue(coord.getY());
 	    yField.setColumns(10);
 	    yLabel.setLabelFor(yField);
 	    
@@ -265,7 +266,7 @@ public class ModifyIsland extends JFrame implements ActionListener {
 			double[] coord = {0,0};
 			coord[0] = ((Number)xField.getValue()).doubleValue();
 			coord[1] = ((Number)yField.getValue()).doubleValue();
-			island.setCoord(coord);
+			island.setCoord(coord[0], coord[1]);
 			island.setRefIsland(null);
 			island.setAngle(0);
 			island.setDistance(0);

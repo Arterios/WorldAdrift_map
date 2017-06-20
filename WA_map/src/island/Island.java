@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -21,19 +22,19 @@ public class Island extends JPanel{
 	private double distance;
 	private String name;
 	private String description;
-	private double[] coord;
+	private Point coord;
 	private Color c;
 
 	public Island(String name, double x, double y){
 		this.name = name;
-		this.coord = new double[2];
-		coord[0] = x;
-		coord[1] = y;
+		this.coord = new Point();
+		coord.setLocation(x, y);
 		this.refIsland = null;
 		angle = 0;
 		distance = 0;
 		setIslandSize(7);
 		c = Color.BLUE;
+		this.setOpaque(false);
 	}
 
 	public Island(String name, Island refIsland, double angle, double distance) {
@@ -41,17 +42,19 @@ public class Island extends JPanel{
 		this.refIsland = refIsland;
 		this.angle = angle;
 		this.distance = distance;
+		this.coord = new Point();
 		calcAbsoluteCoord();
 		setIslandSize(7);
 		c = Color.RED;
+		this.setOpaque(false);
 	}
 	
 	private void setCoordInPanel(){
 		if(this.refIsland != null)
 			calcAbsoluteCoord();
 		Dimension psize = this.getPreferredSize();
-		this.setBounds((SCALE*(int)coord[0] - size/2) ,
-				(SCALE*(int)coord[1] - size/2) , psize.width, psize.height);
+		this.setBounds((SCALE*(int)coord.getX() - size/2) ,
+				(SCALE*(int)coord.getY() - size/2) , psize.width, psize.height);
 		
 	}
 
@@ -71,20 +74,34 @@ public class Island extends JPanel{
 	 */
 	private void calcAbsoluteCoord(){
 		double[] refOffset = coordFromRef();
-		double[] refCoord = refIsland.getCoord(); 
+		double[] refCoord = refIsland.getCoordArray(); 
 		double[] coord = {0.0, 0.0};
 		coord[0] = refCoord[0] + refOffset[0];
 		coord[1] = refCoord[1] + refOffset[1];
-		this.coord = coord;
+		this.coord.setLocation(coord[0], coord[1]);
 	}
 
-
-	public double[] getCoord() {
+	@Deprecated
+	public double[] getCoordArray() {
+		double[] coord = { this.coord.getX(), this.coord.getY() };
 		return coord;
 	}
 	
+	public Point getCoord() {
+		return coord;
+	}
+	
+	@Deprecated
 	public void setCoord(double[] c){
+		coord.setLocation(c[0], c[1]);;
+	}
+	
+	public void setCoord(Point c){
 		coord = c;
+	}
+	
+	public void setCoord(double x, double y){
+		coord.setLocation(x, y);
 	}
 	
 	

@@ -2,6 +2,7 @@ package map;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -30,6 +31,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	/* temporary field for event */
 	private int x1, y1;
 	private Island quickAddRef;
+	private Island tmpIsland;
 	
 	public WAMap() {
 	    this.setLayout(null);
@@ -56,12 +58,12 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	}
 	
 	public void addIslandToMap(Island i){
-		double[] coord = i.getCoord();
-		if((coord[0] + i.getIslandSize()) > this.getWidth()){
-			this.setWidht((int)coord[0] + i.getIslandSize());
+		Point coord = i.getCoord();
+		if((coord.getX() + i.getIslandSize()) > this.getWidth()){
+			this.setWidht((int)coord.getX() + i.getIslandSize());
 		}
-		if((coord[1] + i.getIslandSize()) > this.getHeight()){
-			this.setHeight((int)coord[1] + i.getIslandSize());
+		if((coord.getY() + i.getIslandSize()) > this.getHeight()){
+			this.setHeight((int)coord.getY() + i.getIslandSize());
 		}
 		islands.add(i);
 		this.add(i);
@@ -168,6 +170,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		/* infos distance and angle */
 		int x = e.getX() - x1;
 		int y = e.getY() - y1;
 		double dist = Math.sqrt( x*x + y*y );
@@ -182,6 +185,8 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 		}
 		angle = Double.parseDouble(Utils.DF.format(angle));
 		InfosBox.setAngleLabel("Angle = " + angle);
+		
+		/* Quick add */
 		if(e.isShiftDown()){
 			if(quickAddRef != null){
 				quickAddRef.setAngle(angle);
@@ -189,6 +194,17 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 				//System.out.println(quickAddRef);
 				this.repaint(e.getX()-50,e.getY()-50,100,100);
 			}
+		}
+		
+		/* move island */
+		if(e.isAltDown()){
+			if(tmpIsland.getRefIsland() == null){
+				tmpIsland.setCoord(e.getPoint());
+			} else {
+				tmpIsland.setAngle(angle);
+				tmpIsland.setDistance(Math.ceil(dist));
+			}
+			this.repaint(e.getX()-50,e.getY()-50,100,100);
 		}
 		
 	}
@@ -218,20 +234,47 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 	public void mousePressed(MouseEvent e) {
 		x1 = e.getX();
 		y1 = e.getY();
-		//System.out.println(x1 + " " + y1);
+
+		/* quick add */
 		if(e.isShiftDown()){
 			Component c = null;
 			Island originIsland = null;
 			try{
 				c = findComponentAt(getMousePosition());
 				originIsland = (Island)c;
-			} catch(Exception e1) {
+			} catch(Exception ignored) {
 				originIsland = null;
 			} 
 			//System.out.println(originIsland);
 			if(originIsland != null){
 				quickAddRef = new Island("Island"+ islands.size(), originIsland, 0,0 );
 				addIslandToMap(quickAddRef);
+				Point p = quickAddRef.getRefIsland().getCoord();
+				x1 = (int)p.getX();
+				y1 = (int)p.getY();
+			}
+		}
+		
+		/* move island */
+		if(e.isAltDown()){
+			Component c = null;
+			tmpIsland = null;
+			try{
+				c = findComponentAt(getMousePosition());
+				tmpIsland = (Island)c;
+			} catch(Exception ignored) {
+				tmpIsland = null;
+			} 
+			
+			if(tmpIsland != null){
+				Point p;
+				if(tmpIsland.getRefIsland() == null){
+					p = tmpIsland.getCoord();
+				} else {
+					p = tmpIsland.getRefIsland().getCoord();
+				}
+				x1 = (int)p.getX();
+				y1 = (int)p.getY();
 			}
 		}
 		
@@ -242,6 +285,7 @@ public class WAMap extends JPanel implements ActionListener,MouseMotionListener,
 		InfosBox.setAngleLabel("");
 		InfosBox.setDistanceLabel("");
 		quickAddRef = null;
+		tmpIsland = null;
 		
 	}
 

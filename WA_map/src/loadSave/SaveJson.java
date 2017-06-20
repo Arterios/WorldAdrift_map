@@ -1,5 +1,6 @@
 package loadSave;
 
+import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,8 +42,8 @@ public class SaveJson {
 			jsonW.object().key("island_name").value(i.getName());
 			if(i.getRefIsland() == null){
 				jsonW.key("is_origin").value(true);
-				double[] coord = i.getCoord();
-				jsonW.key("x").value(coord[0]).key("y").value(coord[1]);
+				Point coord = i.getCoord();
+				jsonW.key("x").value(coord.getX()).key("y").value(coord.getY());
 			} else {
 				jsonW.key("ref_island").value(i.getRefIsland().getName());
 				jsonW.key("angle").value(i.getAngle()).key("distance").value(i.getDistance());

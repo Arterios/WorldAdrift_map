@@ -34,6 +34,7 @@ public class InfosBox extends JPanel {
 	    angle.setBounds(0, 60 , 200, 20);
 	    this.add(angle);
 	    
+	    this.setOpaque(false);
 	}
 	
 	public static void setMouseCoordLabel(String s){
